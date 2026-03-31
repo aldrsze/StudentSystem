@@ -1,6 +1,9 @@
 package ui.CLI;
 
+import dao.*;
+
 public class Menu {
+    // MENU
     public static void menu() {
         clear.clear_screen();
         System.out.println(" Welcome to the Student Management System!");
@@ -13,18 +16,18 @@ public class Menu {
         int choice = Integer.parseInt(Auth.con.readLine(" Enter your choice: "));
         
         if (choice == 1) {
-            System.out.println("Viewing all students...");
+            System.out.println(" Viewing all students...");
             
         } else if (choice == 2) {
-            System.out.println("Adding new student...");
+            dao.AddStudent.addStudent();
         } else if (choice == 3) {
-            System.out.println("Updating student information...");
+            System.out.println(" Updating student information...");
         } else if (choice == 4) {
-            System.out.println("Deleting student...");
+            System.out.println(" Deleting student...");
         } else if (choice == 5) {
-            System.out.println("Logging out...");
+            System.out.println(" Logging out...");
         } else {
-            System.out.println("Invalid choice. Please try again.");
+            System.out.println(" Invalid choice. Please try again.");
         }
     }
 
