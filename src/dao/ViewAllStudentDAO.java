@@ -31,7 +31,7 @@ public class ViewAllStudentDAO {
                 list.add(new Student(id, fname, lname, email, course));
             }
         } catch (SQLException e) {
-            helpers.clear.clear_screen();
+            ui.CLI.helpers.clear.clear_screen();
             System.out.println(" Error: Couldn't retrieve student data.");
             e.printStackTrace();
         }

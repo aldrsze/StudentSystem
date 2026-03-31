@@ -1,6 +1,6 @@
 package ui.CLI;
 
-import helpers.clear;
+import ui.CLI.helpers.clear;
 
 public class Menu {
     // MENU
@@ -15,7 +15,7 @@ public class Menu {
             System.out.println(" 4. Delete Student");
             System.out.println(" 5. Logout");
 
-            int choice = Integer.parseInt(helpers.console.con.readLine(" Enter your choice: "));
+            int choice = Integer.parseInt(ui.CLI.helpers.console.con.readLine(" Enter your choice: "));
             
             if (choice == 1) {
                 ui.CLI.ViewAllStudents.viewAllStudents();
@@ -26,11 +26,11 @@ public class Menu {
             } else if (choice == 4) {
                 ui.CLI.DeleteStudent.deleteStudent();
             } else if (choice == 5) {
-                helpers.clear.exit_clear_screen();
+                ui.CLI.helpers.clear.exit_clear_screen();
                 System.out.println(" Logging out...");
                 break;
             } else {
-                helpers.clear.clear_screen();
+                ui.CLI.helpers.clear.clear_screen();
                 System.out.println(" Invalid choice. Please try again.");
             }
         }

@@ -1,4 +1,4 @@
-package helpers;
+package ui.CLI.helpers;
 
 import java.io.Console;
 

@@ -2,8 +2,8 @@ package ui.CLI;
 
 import java.util.List;
 import dao.ViewAllStudentDAO;
-import helpers.clear;
 import model.Student;
+import ui.CLI.helpers.clear;
 
 public class ViewAllStudents {
     public static void viewAllStudents() {
@@ -15,7 +15,7 @@ public class ViewAllStudents {
         List<Student> allStudents = dao.getAllStudents();
 
         if (allStudents.isEmpty()) {
-            helpers.clear.clear_screen();
+            ui.CLI.helpers.clear.clear_screen();
             System.out.println(" No student records found in the database.");
         } else {
             System.out.println("\n ---------------- Current Students -------------- ");
@@ -27,7 +27,7 @@ public class ViewAllStudents {
             }
         }
 
-        helpers.console.con.readLine("\n Press <ENTER> to return to menu...");
+        ui.CLI.helpers.console.con.readLine("\n Press <ENTER> to return to menu...");
     }
 
 }

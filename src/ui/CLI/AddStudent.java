@@ -1,8 +1,8 @@
 package ui.CLI;
 
 import model.Student;
+import ui.CLI.helpers.clear;
 import dao.*;
-import helpers.clear;
 
 public class AddStudent {
     public static void addStudent() {
@@ -10,10 +10,10 @@ public class AddStudent {
         System.out.println(" --- ADD NEW STUDENT --- ");
         
         // input information
-        String firstName = helpers.console.con.readLine(" Enter First Name: ");
-        String lastName = helpers.console.con.readLine(" Enter Last Name: ");  
-        String email = helpers.console.con.readLine(" Enter Email: ");
-        String course = helpers.console.con.readLine(" Enter Course: ");
+        String firstName = ui.CLI.helpers.console.con.readLine(" Enter First Name: ");
+        String lastName = ui.CLI.helpers.console.con.readLine(" Enter Last Name: ");  
+        String email = ui.CLI.helpers.console.con.readLine(" Enter Email: ");
+        String course = ui.CLI.helpers.console.con.readLine(" Enter Course: ");
 
         // create new student object
         Student student = new Student(firstName, lastName, email, course);
@@ -22,6 +22,6 @@ public class AddStudent {
         AddStudentDAO dao = new AddStudentDAO();
         dao.addStudent(student);
 
-        helpers.console.con.readLine("\n Press <ENTER> to return to menu...");
+        ui.CLI.helpers.console.con.readLine("\n Press <ENTER> to return to menu...");
     }
 }

@@ -1,4 +1,4 @@
-package helpers;
+package ui.CLI.helpers;
 
 public class clear {
     // FOR CLEANER INTERFACE

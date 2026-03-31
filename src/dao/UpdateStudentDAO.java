@@ -29,14 +29,14 @@ public class UpdateStudentDAO {
             
             int rowsUpdated = stmt.executeUpdate();
             if (rowsUpdated > 0) {
-                helpers.clear.clear_screen();
+                ui.CLI.helpers.clear.clear_screen();
                 System.out.println(" Student updated successfully! ");
             } else {
-                helpers.clear.clear_screen();
+                ui.CLI.helpers.clear.clear_screen();
                 System.out.println(" No student found with the given ID. ");
             }
         } catch (SQLException e) {
-            helpers.clear.clear_screen();
+            ui.CLI.helpers.clear.clear_screen();
             System.out.println("Error: Couldn't update student data.");
             e.printStackTrace();
         }
