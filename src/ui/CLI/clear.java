@@ -1,4 +1,4 @@
-package ui;
+package ui.CLI;
 
 public class clear {
     public static void clear_screen() {

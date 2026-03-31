@@ -13,7 +13,7 @@ public class StudentDAO {
         String sql = "INSERT INTO students (first_name, last_name, email, course) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             // For safety
             pstmt.setString(1, student.getFirstName());
@@ -35,8 +35,8 @@ public class StudentDAO {
         String sql = "Select * FROM students";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
 

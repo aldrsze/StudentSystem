@@ -1,4 +1,4 @@
-package ui;
+package ui.CLI;
 
 import java.io.Console;
 

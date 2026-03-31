@@ -1,10 +1,10 @@
 package main;
 
-import dao.StudentDAO;
-import model.Student;
-import ui.Auth;
+// import dao.StudentDAO;
+// import model.Student;
+import ui.CLI.Auth;
 
-import java.util.List;
+// import java.util.List;
 
 public class App {
     public static void main(String[] args) throws Exception {
