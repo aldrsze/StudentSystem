@@ -2,6 +2,7 @@ package ui.CLI;
 
 import java.util.List;
 import dao.ViewAllStudentDAO;
+import helpers.clear;
 import model.Student;
 
 public class ViewAllStudents {
@@ -14,10 +15,10 @@ public class ViewAllStudents {
         List<Student> allStudents = dao.getAllStudents();
 
         if (allStudents.isEmpty()) {
-            ui.CLI.clear.clear_screen();
+            helpers.clear.clear_screen();
             System.out.println(" No student records found in the database.");
         } else {
-            System.out.println("\n -------------------- Current Students ---------- ");
+            System.out.println("\n ---------------- Current Students -------------- ");
 
             for (Student s : allStudents) {
                 System.out.println(" ID: " + s.getStudentID() + " | Name: " + s.getFirstName() + " " + s.getLastName());
@@ -26,7 +27,7 @@ public class ViewAllStudents {
             }
         }
 
-        Auth.con.readLine("\n Press <ENTER> to return to menu...");
+        helpers.console.con.readLine("\n Press <ENTER> to return to menu...");
     }
 
 }

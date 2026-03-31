@@ -17,7 +17,7 @@ public class DatabaseConnection {
         try {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
-            ui.CLI.clear.clear_screen();
+            helpers.clear.clear_screen();
             System.out.println(" Connection FAILED. check if mySQL is running. ");
             e.printStackTrace();
         }

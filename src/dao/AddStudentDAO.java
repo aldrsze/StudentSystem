@@ -21,11 +21,11 @@ public class AddStudentDAO {
             pstmt.setString(4, student.getCourse());
 
             pstmt.executeUpdate();
-            ui.CLI.clear.clear_screen();
+            helpers.clear.clear_screen();
             System.out.println(" Student Saved Successfully!");
 
         } catch (SQLException e) {
-            ui.CLI.clear.clear_screen();
+            helpers.clear.clear_screen();
             System.out.println(" Error: Couldn't save student data.");
             e.printStackTrace();
         }
