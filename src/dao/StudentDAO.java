@@ -22,10 +22,10 @@ public class StudentDAO {
             pstmt.setString(4, student.getCourse());
 
             pstmt.executeUpdate();
-            System.out.println("Student Saved Successfully!");
+            System.out.println(" Student Saved Successfully!");
 
         } catch (SQLException e) {
-            System.out.println("Error: Couldn't save student data.");
+            System.out.println(" Error: Couldn't save student data.");
             e.printStackTrace();
         }
     }
@@ -51,6 +51,7 @@ public class StudentDAO {
                 list.add(new Student(id, fname, lname, email, course));
             }
         } catch (SQLException e) {
+            System.out.println(" Error: Couldn't retrieve student data.");
             e.printStackTrace();
         }
         return list;
