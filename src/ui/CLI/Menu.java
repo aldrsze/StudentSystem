@@ -24,9 +24,9 @@ public class Menu {
             } else if (choice == 3) {
                 ui.CLI.UpdateStudent.updateStudent();
             } else if (choice == 4) {
-                System.out.println(" Deleting student...");
+                ui.CLI.DeleteStudent.deleteStudent();
             } else if (choice == 5) {
-                helpers.clear.clear_screen();
+                helpers.clear.exit_clear_screen();
                 System.out.println(" Logging out...");
                 break;
             } else {

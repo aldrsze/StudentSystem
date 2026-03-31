@@ -9,4 +9,6 @@ public class clear {
         System.out.println("            Student Management System             ");
         System.out.println("==================================================");
     }
+
+    public static void exit_clear_screen() {System.out.print("\033[H\033[2J"); System.out.flush();}
 }
