@@ -1,7 +1,7 @@
-package dao;
+package ui.CLI;
 
 import model.Student;
-import ui.CLI.*;
+import dao.*;
 
 public class AddStudent {
     public static void addStudent() {
@@ -18,10 +18,9 @@ public class AddStudent {
         Student student = new Student(firstName, lastName, email, course);
         
         // save to database
-        StudentDAO dao = new StudentDAO();
+        AddStudentDAO dao = new AddStudentDAO();
         dao.addStudent(student);
 
         Auth.con.readLine("\n Press <ENTER> to return to menu...");
-        Menu.menu();
     }
 }

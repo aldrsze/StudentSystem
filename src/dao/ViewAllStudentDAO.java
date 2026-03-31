@@ -1,35 +1,15 @@
 package dao;
 
-import model.Student;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentDAO {
+import model.Student;
 
-    // To save a student to the database
-    public void addStudent(Student student) {
-        String sql = "INSERT INTO students (first_name, last_name, email, course) VALUES (?, ?, ?, ?)";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            // For safety
-            pstmt.setString(1, student.getFirstName());
-            pstmt.setString(2, student.getLastName());
-            pstmt.setString(3, student.getEmail());
-            pstmt.setString(4, student.getCourse());
-
-            pstmt.executeUpdate();
-            System.out.println(" Student Saved Successfully!");
-
-        } catch (SQLException e) {
-            System.out.println(" Error: Couldn't save student data.");
-            e.printStackTrace();
-        }
-    }
-
+public class ViewAllStudentDAO {
     public List<Student> getAllStudents() {
         List<Student> list = new ArrayList<>();
         String sql = "Select * FROM students";
@@ -51,10 +31,10 @@ public class StudentDAO {
                 list.add(new Student(id, fname, lname, email, course));
             }
         } catch (SQLException e) {
+            ui.CLI.clear.clear_screen();
             System.out.println(" Error: Couldn't retrieve student data.");
             e.printStackTrace();
         }
         return list;
     }
-
 }
