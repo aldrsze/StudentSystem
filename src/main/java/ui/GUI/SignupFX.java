@@ -10,23 +10,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import ui.GUI.helpers.RoundedButton;
-import ui.GUI.helpers.SystemNotifier;
 
-public class LoginFX extends Application {
+public class SignupFX extends Application {
 
-    // Define colors
     private final String PRIMARY_GREEN = "#346739";
     private final String BUTTON_GREEN = "#79AE6F";
     private final String TEXT_LIGHT = "#DCDCDC";
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     @Override
     public void start(Stage primaryStage) {
-        // Main Container: Split screen 50/50 using a GridPane or HBox
         HBox root = new HBox();
         root.setPrefSize(900, 600);
 
@@ -75,78 +67,104 @@ public class LoginFX extends Application {
         Label brandName = new Label("Student Management System");
         brandName.setFont(Font.font("Segoe UI", FontWeight.BOLD, 19));
 
-        Label welcomeLabel = new Label("Welcome!");
+        Label welcomeLabel = new Label("Create Account");
         welcomeLabel.setFont(Font.font("Segoe UI", FontWeight.BOLD, 30));
 
-        Label subText = new Label("Please enter your credentials to access the system.");
+        Label subText = new Label("Please fill in the details below to register.");
         subText.setFont(Font.font("Segoe UI", 14));
         subText.setTextFill(Color.GRAY);
         subText.setWrapText(true);
         subText.setMaxWidth(250);
 
+        // Reusable style for inputs
+        String fieldStyle = "-fx-background-color: transparent; -fx-border-color: lightgray; -fx-border-width: 0 0 1 0;";
+
         TextField usernameField = new TextField();
         usernameField.setPromptText("Username");
-        usernameField.setStyle("-fx-background-color: transparent; -fx-border-color: lightgray; -fx-border-width: 0 0 1 0;");
-        usernameField.setPrefHeight(40);
+        usernameField.setStyle(fieldStyle);
+        usernameField.setPrefHeight(35);
+
+        TextField emailField = new TextField();
+        emailField.setPromptText("Email Address");
+        emailField.setStyle(fieldStyle);
+        emailField.setPrefHeight(35);
 
         PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Password");
-        passwordField.setStyle("-fx-background-color: transparent; -fx-border-color: lightgray; -fx-border-width: 0 0 1 0;");
-        passwordField.setPrefHeight(40);
+        passwordField.setStyle(fieldStyle);
+        passwordField.setPrefHeight(35);
 
-        Button loginBtn = RoundedButton.createRoundedButton("Login", BUTTON_GREEN);
+        PasswordField confirmPasswordField = new PasswordField();
+        confirmPasswordField.setPromptText("Confirm Password");
+        confirmPasswordField.setStyle(fieldStyle);
+        confirmPasswordField.setPrefHeight(35);
 
-        // Login Button Action
-        loginBtn.setOnAction(e -> {
-            controller.LoginController.handleLogin(
+        Button registerBtn = createRoundedButton("Sign Up", BUTTON_GREEN);
+
+        // Signup Button Action
+        registerBtn.setOnAction(e -> {
+            controller.SignupController.handleSignup(
                     usernameField.getText(),
+                    emailField.getText(),
                     passwordField.getText(),
+                    confirmPasswordField.getText(),
                     primaryStage
             );
         });
 
-        Button signupBtn = RoundedButton.createRoundedButton("Signup", BUTTON_GREEN);
+        // "Back to Login" Link
+        Hyperlink backToLoginLink = new Hyperlink("Already have an account? Log In");
+        backToLoginLink.setFont(Font.font("Segoe UI", 12));
+        backToLoginLink.setTextFill(Color.GRAY);
+        backToLoginLink.setOnAction(e -> controller.SignupController.switchToLogin(primaryStage));
 
-        // Signup Button Action
-        signupBtn.setOnAction(e -> {
-            try {
-                new SignupFX().start(primaryStage);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
-
-        Hyperlink forgotPassword = new Hyperlink("Forget password?");
-        forgotPassword.setFont(Font.font("Segoe UI", 12));
-        forgotPassword.setTextFill(Color.GRAY);
-        forgotPassword.setOnAction(e -> {
-            SystemNotifier.showWarning(primaryStage, "Development", "Password recovery is not implemented yet.");
-        });
-
-        VBox centerWrapper = new VBox(forgotPassword);
+        VBox centerWrapper = new VBox(backToLoginLink);
         centerWrapper.setAlignment(Pos.CENTER);
 
         rightPanel.getChildren().addAll(
                 brandName, welcomeLabel, subText,
                 new Region() {{
-                    setPrefHeight(20);
+                    setPrefHeight(10);
                 }},
-                usernameField, passwordField,
+                usernameField, emailField, passwordField, confirmPasswordField,
                 new Region() {{
-                    setPrefHeight(15);
+                    setPrefHeight(10);
                 }},
-                loginBtn, signupBtn, centerWrapper
+                registerBtn, centerWrapper
         );
 
         root.getChildren().addAll(leftPanel, rightPanel);
 
         Scene scene = new Scene(root);
-        primaryStage.setTitle("SMS");
+        primaryStage.setTitle("SMS - Sign Up");
         primaryStage.setScene(scene);
-        primaryStage.show();
 
+        // Trigger the identical animations so it feels like the same window
         ui.GUI.animations.AnimationFX.applyStaggeredAnimation(leftPanel, 200);
         ui.GUI.animations.AnimationFX.applyStaggeredAnimation(rightPanel, 500);
+
+        primaryStage.show();
     }
 
+    // Helper method to transition back to the Login screen
+    private void switchToLogin(Stage stage) {
+        try {
+            new LoginFX().start(stage);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private Button createRoundedButton(String text, String color) {
+        Button btn = new Button(text);
+        btn.setMaxWidth(Double.MAX_VALUE);
+        btn.setPrefHeight(40);
+        btn.setStyle("-fx-background-color: " + color + "; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 15;");
+        btn.setCursor(javafx.scene.Cursor.HAND);
+
+        btn.setOnMouseEntered(e -> btn.setStyle("-fx-background-color: derive(" + color + ", -10%); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 15;"));
+        btn.setOnMouseExited(e -> btn.setStyle("-fx-background-color: " + color + "; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 15;"));
+
+        return btn;
+    }
 }
