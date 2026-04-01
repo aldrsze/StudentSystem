@@ -32,7 +32,7 @@ public class UserDAO {
 
     // Authenticate a user (For Login)
     public boolean authenticateUser(String username, String password) {
-        String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+        String sql = "SELECT * FROM users WHERE BINARY username = ? AND BINARY password = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -46,6 +46,7 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             System.out.println("Database error during login: " + e.getMessage());
+
         }
         return false;
     }
