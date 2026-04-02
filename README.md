@@ -28,4 +28,5 @@ run-sms.bat         # Windows
 ## Tech Stack
 Java | JavaFX | MySQL | Maven | DAO/MVC
 
-## DEV: aldrsze.
+##
+## aldrsze.
