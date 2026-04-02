@@ -19,6 +19,9 @@ public class SignupFX extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(550);
+
         HBox root = new HBox();
         root.setPrefSize(900, 600);
 
@@ -26,6 +29,10 @@ public class SignupFX extends Application {
         VBox leftPanel = new VBox(20);
         leftPanel.setPadding(new Insets(50));
         leftPanel.setPrefWidth(450);
+        
+        leftPanel.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(leftPanel, Priority.ALWAYS);
+        
         leftPanel.setBackground(new Background(new BackgroundFill(Color.web(PRIMARY_GREEN), CornerRadii.EMPTY, Insets.EMPTY)));
         leftPanel.setAlignment(Pos.TOP_LEFT);
 
@@ -61,6 +68,10 @@ public class SignupFX extends Application {
         VBox rightPanel = new VBox(15);
         rightPanel.setPadding(new Insets(50, 60, 50, 60));
         rightPanel.setPrefWidth(450);
+        
+        rightPanel.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(rightPanel, Priority.ALWAYS);
+        
         rightPanel.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         rightPanel.setAlignment(Pos.CENTER_LEFT);
 
@@ -83,21 +94,27 @@ public class SignupFX extends Application {
         usernameField.setPromptText("Username");
         usernameField.setStyle(fieldStyle);
         usernameField.setPrefHeight(35);
+        // --- RESPONSIVE UPDATE: Make field stretch ---
+        usernameField.setMaxWidth(Double.MAX_VALUE);
 
         TextField emailField = new TextField();
         emailField.setPromptText("Email Address");
         emailField.setStyle(fieldStyle);
         emailField.setPrefHeight(35);
+        // --- RESPONSIVE UPDATE: Make field stretch ---
+        emailField.setMaxWidth(Double.MAX_VALUE);
 
         PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Password");
         passwordField.setStyle(fieldStyle);
         passwordField.setPrefHeight(35);
+        passwordField.setMaxWidth(Double.MAX_VALUE);
 
         PasswordField confirmPasswordField = new PasswordField();
         confirmPasswordField.setPromptText("Confirm Password");
         confirmPasswordField.setStyle(fieldStyle);
         confirmPasswordField.setPrefHeight(35);
+        confirmPasswordField.setMaxWidth(Double.MAX_VALUE);
 
         Button registerBtn = createRoundedButton("Sign Up", BUTTON_GREEN);
 
@@ -120,6 +137,7 @@ public class SignupFX extends Application {
 
         VBox centerWrapper = new VBox(backToLoginLink);
         centerWrapper.setAlignment(Pos.CENTER);
+        centerWrapper.setMaxWidth(Double.MAX_VALUE);
 
         rightPanel.getChildren().addAll(
                 brandName, welcomeLabel, subText,
@@ -144,15 +162,6 @@ public class SignupFX extends Application {
         ui.GUI.animations.AnimationFX.applyStaggeredAnimation(rightPanel, 500);
 
         primaryStage.show();
-    }
-
-    // Helper method to transition back to the Login screen
-    private void switchToLogin(Stage stage) {
-        try {
-            new LoginFX().start(stage);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
     }
 
     private Button createRoundedButton(String text, String color) {

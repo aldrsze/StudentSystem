@@ -26,7 +26,10 @@ public class LoginFX extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // Main Container: Split screen 50/50 using a GridPane or HBox
+        // --- Set Min constraints so UI doesn't crush ---
+        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(550);
+
         HBox root = new HBox();
         root.setPrefSize(900, 600);
 
@@ -34,6 +37,11 @@ public class LoginFX extends Application {
         VBox leftPanel = new VBox(20);
         leftPanel.setPadding(new Insets(50));
         leftPanel.setPrefWidth(450);
+        
+        // --- Allow Left Panel to stretch ---
+        leftPanel.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(leftPanel, Priority.ALWAYS);
+        
         leftPanel.setBackground(new Background(new BackgroundFill(Color.web(PRIMARY_GREEN), CornerRadii.EMPTY, Insets.EMPTY)));
         leftPanel.setAlignment(Pos.TOP_LEFT);
 
@@ -69,6 +77,11 @@ public class LoginFX extends Application {
         VBox rightPanel = new VBox(15);
         rightPanel.setPadding(new Insets(50, 60, 50, 60));
         rightPanel.setPrefWidth(450);
+        
+        // --- Allow Right Panel to stretch ---
+        rightPanel.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(rightPanel, Priority.ALWAYS);
+        
         rightPanel.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         rightPanel.setAlignment(Pos.CENTER_LEFT);
 
@@ -88,13 +101,19 @@ public class LoginFX extends Application {
         usernameField.setPromptText("Username");
         usernameField.setStyle("-fx-background-color: transparent; -fx-border-color: lightgray; -fx-border-width: 0 0 1 0;");
         usernameField.setPrefHeight(40);
+        // --- Make field stretch to fill panel width ---
+        usernameField.setMaxWidth(Double.MAX_VALUE);
 
         PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Password");
         passwordField.setStyle("-fx-background-color: transparent; -fx-border-color: lightgray; -fx-border-width: 0 0 1 0;");
         passwordField.setPrefHeight(40);
+        // --- Make field stretch to fill panel width ---
+        passwordField.setMaxWidth(Double.MAX_VALUE);
 
         Button loginBtn = RoundedButton.createRoundedButton("Login", BUTTON_GREEN);
+        // --- Make button stretch to fill panel width ---
+        loginBtn.setMaxWidth(Double.MAX_VALUE);
 
         // Login Button Action
         loginBtn.setOnAction(e -> {
@@ -106,6 +125,8 @@ public class LoginFX extends Application {
         });
 
         Button signupBtn = RoundedButton.createRoundedButton("Signup", BUTTON_GREEN);
+        // --- Make button stretch to fill panel width ---
+        signupBtn.setMaxWidth(Double.MAX_VALUE);
 
         // Signup Button Action
         signupBtn.setOnAction(e -> {
@@ -125,6 +146,8 @@ public class LoginFX extends Application {
 
         VBox centerWrapper = new VBox(forgotPassword);
         centerWrapper.setAlignment(Pos.CENTER);
+        // --- Make wrapper stretch to fill panel width ---
+        centerWrapper.setMaxWidth(Double.MAX_VALUE);
 
         rightPanel.getChildren().addAll(
                 brandName, welcomeLabel, subText,
@@ -141,12 +164,11 @@ public class LoginFX extends Application {
         root.getChildren().addAll(leftPanel, rightPanel);
 
         Scene scene = new Scene(root);
-        primaryStage.setTitle("SMS");
+        primaryStage.setTitle("SMS - Login");
         primaryStage.setScene(scene);
         primaryStage.show();
 
         ui.GUI.animations.AnimationFX.applyStaggeredAnimation(leftPanel, 200);
         ui.GUI.animations.AnimationFX.applyStaggeredAnimation(rightPanel, 500);
     }
-
 }

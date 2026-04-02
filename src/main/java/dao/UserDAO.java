@@ -10,11 +10,11 @@ import java.sql.SQLException;
 public class UserDAO {
 
     // Register a new user (For Signup)
-    public boolean registerUser(User user) {
+    public static boolean registerUser(User user) {
         String sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, user.getUsername());
             pstmt.setString(2, user.getEmail());
@@ -31,11 +31,11 @@ public class UserDAO {
     }
 
     // Authenticate a user (For Login)
-    public boolean authenticateUser(String username, String password) {
+    public static boolean authenticateUser(String username, String password) {
         String sql = "SELECT * FROM users WHERE BINARY username = ? AND BINARY password = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, username);
             pstmt.setString(2, password);

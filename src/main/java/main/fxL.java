@@ -1,4 +1,6 @@
-package ui.GUI;
+package main;
+
+import ui.GUI.MenuFX;
 
 public class fxL {
     public static void main(String[] args) {

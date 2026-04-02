@@ -17,10 +17,9 @@ import java.util.Optional;
 public class ManageStudentsPanel {
 
     private final ManageStudentsController controller = new ManageStudentsController();
-    private VBox cachedRoot; 
+    private VBox cachedRoot;
     private TableView<Student> table;
-    
-    // Form Inputs
+
     private TextField txtFirstName, txtLastName, txtEmail, txtCourse;
     private int selectedStudentId = -1;
 
@@ -39,23 +38,25 @@ public class ManageStudentsPanel {
 
             cachedRoot.getChildren().addAll(title, table, formArea);
         }
-        
+
         controller.loadAllStudents(table);
         clearForm();
-        
+
         ui.GUI.animations.AnimationFX.applyStaggeredAnimation(cachedRoot, 200);
-        
+
         return cachedRoot;
     }
 
     @SuppressWarnings("unchecked")
     private void setupTable() {
         table = new TableView<>();
-        table.setPrefHeight(300);
+
+        // --- Forces the table to expand vertically to fill empty space! ---
+        VBox.setVgrow(table, Priority.ALWAYS);
 
         TableColumn<Student, Integer> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("studentID"));
-        idCol.setMaxWidth(1000); 
+        idCol.setMaxWidth(1000);
 
         TableColumn<Student, String> fNameCol = new TableColumn<>("First Name");
         fNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -85,18 +86,28 @@ public class ManageStudentsPanel {
 
     private HBox setupFormArea() {
         GridPane form = new GridPane();
-        form.setHgap(15); 
-        form.setVgap(15); 
+        form.setHgap(15);
+        form.setVgap(15);
+
+        // --- Allow TextFields to stretch horizontally ---
+        ColumnConstraints labelCol = new ColumnConstraints();
+        labelCol.setMinWidth(80);
+
+        ColumnConstraints fieldCol = new ColumnConstraints();
+        fieldCol.setHgrow(Priority.ALWAYS); // This makes the text fields grow
+
+        form.getColumnConstraints().addAll(labelCol, fieldCol);
 
         txtFirstName = new TextField(); txtFirstName.setPromptText("First Name");
         txtLastName = new TextField();  txtLastName.setPromptText("Last Name");
         txtEmail = new TextField();     txtEmail.setPromptText("Email");
         txtCourse = new TextField();    txtCourse.setPromptText("Course");
 
-        txtFirstName.setPrefWidth(220);
-        txtLastName.setPrefWidth(220);
-        txtEmail.setPrefWidth(220);
-        txtCourse.setPrefWidth(220);
+        // Allow fields to scale dynamically instead of forcing 220px width
+        txtFirstName.setMaxWidth(Double.MAX_VALUE);
+        txtLastName.setMaxWidth(Double.MAX_VALUE);
+        txtEmail.setMaxWidth(Double.MAX_VALUE);
+        txtCourse.setMaxWidth(Double.MAX_VALUE);
 
         form.add(new Label("First Name:"), 0, 0); form.add(txtFirstName, 1, 0);
         form.add(new Label("Last Name:"), 0, 1);  form.add(txtLastName, 1, 1);
@@ -104,13 +115,11 @@ public class ManageStudentsPanel {
         form.add(new Label("Course:"), 0, 3);     form.add(txtCourse, 1, 3);
 
         VBox buttonBox = new VBox(10);
-        
+
         Button btnAdd = createStyledButton("Add Student", "#79AE6F", "#64935A");
         Button btnUpdate = createStyledButton("Update Selected", "#F5A623", "#D48D1C");
         Button btnDelete = createStyledButton("Delete Selected", "#E74C3C", "#C0392B");
         Button btnClear = createStyledButton("Clear Form", "#95A5A6", "#7F8C8D");
-
-        // --- BUTTON LOGIC WITH SYSTEM NOTIFIER ---
 
         btnAdd.setOnAction(e -> {
             boolean success = controller.addStudent(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), txtCourse.getText());
@@ -140,20 +149,17 @@ public class ManageStudentsPanel {
 
         btnDelete.setOnAction(e -> {
             if (selectedStudentId == -1) {
-                // Replaced standard warning with SystemNotifier
                 SystemNotifier.showWarning(getStage(), "No Selection", "Please select a student from the table first.");
                 return;
             }
 
-            // Keep the standard Alert for the Yes/No confirmation since SystemNotifier doesn't block and return a choice
             Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmAlert.initOwner(getStage());
             confirmAlert.setTitle("Confirm Deletion");
             confirmAlert.setHeaderText("Delete Student Record");
             confirmAlert.setContentText("Are you sure you want to delete " + txtFirstName.getText() + " " + txtLastName.getText() + "?\nThis action cannot be undone.");
 
             Optional<ButtonType> result = confirmAlert.showAndWait();
-            
+
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 if (controller.deleteStudent(selectedStudentId)) {
                     SystemNotifier.showSuccess(getStage(), "Deleted", "Student has been removed from the database.");
@@ -165,14 +171,15 @@ public class ManageStudentsPanel {
             }
         });
 
-        btnClear.setOnAction(e -> {
-            clearForm();
-            SystemNotifier.showSuccess(getStage(), "Form Cleared", "The form has been reset.");
-        });
+        btnClear.setOnAction(e -> clearForm());
 
         buttonBox.getChildren().addAll(btnAdd, btnUpdate, btnDelete, btnClear);
 
-        HBox formContainer = new HBox(50); 
+        HBox formContainer = new HBox(50);
+
+        // --- Make the Form Container stretch and share layout ---
+        HBox.setHgrow(form, Priority.ALWAYS); // The text fields side will take up all available empty space
+
         formContainer.getChildren().addAll(form, buttonBox);
         return formContainer;
     }
@@ -186,7 +193,6 @@ public class ManageStudentsPanel {
         table.getSelectionModel().clearSelection();
     }
 
-    // Helper method to retrieve the window Stage for the SystemNotifier
     private Stage getStage() {
         if (cachedRoot != null && cachedRoot.getScene() != null) {
             return (Stage) cachedRoot.getScene().getWindow();
@@ -197,16 +203,16 @@ public class ManageStudentsPanel {
     private Button createStyledButton(String text, String colorHex, String hoverColorHex) {
         Button btn = new Button(text);
         btn.setPrefWidth(130);
-        
+
         String baseStyle = "-fx-background-color: " + colorHex + "; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;";
         String hoverStyle = "-fx-background-color: " + hoverColorHex + "; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;";
-        
+
         btn.setStyle(baseStyle);
         btn.setCursor(javafx.scene.Cursor.HAND);
-        
+
         btn.setOnMouseEntered(e -> btn.setStyle(hoverStyle));
         btn.setOnMouseExited(e -> btn.setStyle(baseStyle));
-        
+
         return btn;
     }
 }
