@@ -14,8 +14,7 @@ public class LoginController {
         }
 
         // Authentication via Database
-        UserDAO userDAO = new UserDAO();
-        if (userDAO.authenticateUser(username, password)) {
+        if (UserDAO.authenticateUser(username, password)) {
             SystemNotifier.showSuccess(stage, "Login Successful", "Welcome back, " + username + "!");
             navigateToDashboard(stage);
         } else {

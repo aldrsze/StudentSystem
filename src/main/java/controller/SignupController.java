@@ -23,9 +23,8 @@ public class SignupController {
 
         // Database Registration
         User newUser = new User(username, email, password);
-        UserDAO userDAO = new UserDAO();
 
-        if (userDAO.registerUser(newUser)) {
+        if (UserDAO.registerUser(newUser)) {
             SystemNotifier.showSuccess(stage, "Success", "Account created successfully! You can now log in.");
             switchToLogin(stage);
         } else {
