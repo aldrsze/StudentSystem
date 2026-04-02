@@ -19,7 +19,7 @@ A comprehensive, dual-interface Student Management System built with JavaFX and 
 ## 🚀 Installation & Setup
 
 ### 1. Database Configuration
-Create a MySQL database named `sms_db` and execute the following:
+Create a MySQL database named `student_system` and execute the following:
 
 ```sql
 CREATE TABLE users (
