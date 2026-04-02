@@ -1,0 +1,42 @@
+name: Build and Release SMS
+
+on:
+  release:
+    types: [published]
+
+# CRITICAL FIX: Give the bot permission to upload files to your release page
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Compile and Upload Release Assets
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Java Development Kit
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21' 
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build with Maven (Generates JAR and EXE)
+        run: mvn clean package
+
+      # Handy debugging step just in case!
+      - name: Verify files exist
+        run: ls -la target/
+
+      # Modern, reliable plugin for uploading multiple files at once
+      - name: Upload Assets to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            target/StudentSystem.exe
+            target/student-management-system-1.0-SNAPSHOT.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
