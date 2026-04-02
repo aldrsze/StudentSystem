@@ -1,7 +1,0 @@
-
-PALLLETE
-https://colorhunt.co/palette/34673979ae6f9fcb98f2edc2
-rgb(52, 103, 57)
-rgb(121, 174, 111)
-rgb(159, 203, 152)
-rgb(242, 237, 194)
