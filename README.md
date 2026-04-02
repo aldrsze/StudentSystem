@@ -1,55 +1,38 @@
 # Student Management System (SMS)
 
-A comprehensive, dual-interface (JavaFX GUI & Console CLI) Student Management System designed to handle student records and administrative user authentication seamlessly. 
+A comprehensive, dual-interface Student Management System built with JavaFX and MySQL. This project features a unique "smart launcher" that automatically detects the operating system to provide a seamless Command Line (CLI) or Graphical User Interface (GUI) experience.
 
 ## ✨ Features
-* **Dual Interface:** Run the application using a modern graphical interface (JavaFX) or a fast command-line interface (CLI).
-* **Secure Authentication:** User login and registration system.
-* **Dashboard Analytics:** Real-time tracking of total students and active courses.
-* **Student CRUD Operations:** * Register new students.
-  * View all student records in a dynamic table.
-  * Update existing student information.
-  * Safely delete records with confirmation prompts.
-* **Responsive UI:** Fully responsive JavaFX design with animated panels and hover effects.
+* **Smart Launcher:** Automatically spawns a native terminal window (Windows, Linux, or macOS) when double-clicking the JAR file.
+* **Dual Interface:** Switch between a modern JavaFX GUI or a fast, keyboard-driven CLI.
+* **Automated Releases:** Continuous Integration via GitHub Actions to automatically build `.exe` and `.jar` assets.
+* **Full CRUD Support:** Manage student records with Create, Read, Update, and Delete capabilities.
+* **Responsive Design:** Fluid JavaFX layouts that adapt to window resizing.
 
-## 🛠️ Technologies Used
-* **Language:** Java
-* **UI Framework:** JavaFX
+## 🛠️ Tech Stack
+* **Language:** Java 11+
+* **Framework:** JavaFX
 * **Build Tool:** Maven
 * **Database:** MySQL
-* **Driver:** MySQL Connector/J
+* **Deployment:** GitHub Actions & Launch4j
 
-## 🚀 Getting Started
+## 🚀 Installation & Setup
 
-### Prerequisites
-To run this project, you will need to have the following installed:
-* [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/downloads/) (Version 11 or higher)
-* [Maven](https://maven.apache.org/)
-* [MySQL Server](https://dev.mysql.com/downloads/mysql/)
-
-### Database Setup
-Before running the application, you must configure the MySQL database. 
-
-1. Open your MySQL client (e.g., MySQL Workbench or Command Line).
-2. Execute the following SQL script to create the database and required tables:
+### 1. Database Configuration
+Create a MySQL database named `sms_db` and execute the following:
 
 ```sql
-CREATE DATABASE IF NOT EXISTS sms_db;
-USE sms_db;
-
--- Table for Admin Users
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
+    username VARCHAR(50) UNIQUE,
+    email VARCHAR(100) UNIQUE,
+    password VARCHAR(255)
 );
 
--- Table for Students
 CREATE TABLE students (
     student_id INT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    course VARCHAR(100) NOT NULL
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100),
+    course VARCHAR(100)
 );
