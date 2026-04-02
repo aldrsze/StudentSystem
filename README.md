@@ -10,7 +10,7 @@ A comprehensive, dual-interface Student Management System built with JavaFX and 
 * **Responsive Design:** Fluid JavaFX layouts that adapt to window resizing.
 
 ## 🛠️ Tech Stack
-* **Language:** Java 11+
+* **Language:** Java 21+
 * **Framework:** JavaFX
 * **Build Tool:** Maven
 * **Database:** MySQL
@@ -22,6 +22,10 @@ A comprehensive, dual-interface Student Management System built with JavaFX and 
 Create a MySQL database named `student_system` and execute the following:
 
 ```sql
+CREATE DATABASE student_system;
+
+USE student_system;
+
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) UNIQUE,
