@@ -35,6 +35,9 @@ public class MenuFX extends Application {
 
     // Main layout container
     private BorderPane root;
+    
+    // --- Added: Cache the View to fix lag ---
+    private final ManageStudentsPanel manageStudentsPanel = new ManageStudentsPanel();
 
     // Array to track navigation buttons
     private Button[] navButtons;
@@ -50,7 +53,6 @@ public class MenuFX extends Application {
 
         setupSidebar(primaryStage);
 
-        // Set default view to Dashboard
         root.setCenter(createDashboardContent());
         
         Scene scene = new Scene(root);
@@ -79,7 +81,6 @@ public class MenuFX extends Application {
 
         brandBox.getChildren().addAll(brandTitle1, brandTitle2);
 
-        // Initialize Sidebar Buttons
         navDashboard = createSidebarButton("Dashboard", ICON_DASHBOARD); 
         navStudents  = createSidebarButton("Manage Students", ICON_STUDENTS);
         navCourses   = createSidebarButton("Courses (Upcoming)", ICON_COURSES);
@@ -90,14 +91,14 @@ public class MenuFX extends Application {
         // NAVIGATION LOGIC 
         navDashboard.setOnAction(e -> {
             setActiveNavButton(navDashboard);
-            root.setCenter(createDashboardContent()); // This forces the dashboard numbers to refresh when clicked!
+            root.setCenter(createDashboardContent()); 
         });
         navStudents.setOnAction(e -> {
             setActiveNavButton(navStudents);
-            root.setCenter(new ManageStudentsPanel().getView());
+            // Uses cached instance to completely avoid UI generation lag
+            root.setCenter(manageStudentsPanel.getView());
         });
 
-        // Set the default active button on start
         setActiveNavButton(navDashboard);
 
         Region sidebarSpacer = new Region();
@@ -131,15 +132,10 @@ public class MenuFX extends Application {
         dateSub.setTextFill(Color.GRAY);
         header.getChildren().addAll(welcomeTitle, dateSub);
 
-        // ==========================================
-        // DYNAMIC DATA FETCHING FOR STAT CARDS
-        // ==========================================
         ViewAllStudentDAO dao = new ViewAllStudentDAO();
-        List<Student> allStudents = dao.getAllStudents(); // Call existing DAO
+        List<Student> allStudents = dao.getAllStudents(); 
 
         int totalStudents = allStudents.size();
-
-        // Use Streams to get only UNIQUE courses
         long totalCourses = allStudents.stream()
                 .map(Student::getCourse)
                 .filter(course -> course != null && !course.trim().isEmpty())
@@ -148,12 +144,11 @@ public class MenuFX extends Application {
                 .distinct()
                 .count();
 
-        HBox statsRow = new HBox(20); // 20px gap between cards
+        HBox statsRow = new HBox(20); 
         statsRow.getChildren().addAll(
                 createStatCard("Total Students", String.valueOf(totalStudents), ICON_TOTAL, "#4A90E2"),
                 createStatCard("Total Courses", String.valueOf(totalCourses), ICON_COURSES, "#F5A623")
         );
-        // ==========================================
 
         Label actionTitle = new Label("Quick Actions");
         actionTitle.setFont(Font.font("Segoe UI", FontWeight.BOLD, 18));
@@ -161,7 +156,7 @@ public class MenuFX extends Application {
         actionTitle.setPadding(new Insets(10, 0, 0, 0));
 
         GridPane actionGrid = new GridPane();
-        actionGrid.setHgap(20); // 20px gap between action buttons (Matches the statsRow HBox)
+        actionGrid.setHgap(20); 
         actionGrid.setVgap(20);
 
         Button viewAllBtn = createActionButton("View All Students", "Browse the complete database.");
@@ -172,7 +167,8 @@ public class MenuFX extends Application {
         // QUICK ACTION LOGIC
         javafx.event.EventHandler<javafx.event.ActionEvent> routeToStudents = e -> {
             setActiveNavButton(navStudents);
-            root.setCenter(new ManageStudentsPanel().getView());
+            // Uses cached instance to completely avoid UI generation lag
+            root.setCenter(manageStudentsPanel.getView());
         };
 
         viewAllBtn.setOnAction(routeToStudents);
@@ -186,6 +182,9 @@ public class MenuFX extends Application {
         actionGrid.add(deleteStudentBtn, 1, 1);
 
         mainContent.getChildren().addAll(header, statsRow, actionTitle, actionGrid);
+        
+        // Optionally animate the dashboard too!
+        ui.GUI.animations.AnimationFX.applyStaggeredAnimation(mainContent, 200);
 
         return mainContent;
     }
@@ -257,9 +256,7 @@ public class MenuFX extends Application {
     private VBox createStatCard(String title, String value, String svgPath, String colorHex) {
         VBox card = new VBox(10);
         card.setPadding(new Insets(20));
-        // --- CHANGED FROM 220 TO 330 TO MATCH QUICK ACTIONS WIDTH ---
         card.setPrefWidth(330); 
-        // -------------------------------------------------------------
         card.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 0);");
 
         Region icon = new Region();
@@ -295,7 +292,7 @@ public class MenuFX extends Application {
 
         Button btn = new Button();
         btn.setGraphic(content);
-        btn.setPrefSize(330, 80); // Quick action buttons are 330px wide
+        btn.setPrefSize(330, 80);
         btn.setAlignment(Pos.CENTER_LEFT);
         btn.setPadding(new Insets(15, 20, 15, 20));
         btn.setCursor(javafx.scene.Cursor.HAND);

@@ -25,6 +25,6 @@ public class LoginController {
 
     private static void navigateToDashboard(Stage stage) {
         System.out.println("Switching to Main Menu/Dashboard...");
-        // new DashboardFX().start(stage);
+        new ui.GUI.MenuFX().start(stage);
     }
 }
