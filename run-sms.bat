@@ -6,7 +6,24 @@ echo ==================================================
 echo      Starting Student Management System (Maven)
 echo ==================================================
 
-:: 1. Check if pom.xml exists in the current directory
+:: 1. Check for Maven and install if not present
+mvn -v >nul 2>nul
+if %ERRORLEVEL% NEQ 0 (
+    echo [!] Maven is not installed. Attempting to install it with winget...
+    winget install -e --id Apache.Maven
+    
+    :: Verify installation
+    mvn -v >nul 2>nul
+    if %ERRORLEVEL% NEQ 0 (
+        echo [!] Maven installation failed or was canceled.
+        echo Please install it manually from https://maven.apache.org/download.cgi
+        pause
+        exit
+    )
+    echo [+] Maven has been installed.
+)
+
+:: 2. Check if pom.xml exists in the current directory
 if not exist "pom.xml" (
     echo [!] Error: pom.xml not found. 
     echo Please run this .bat file from your project's root folder.
