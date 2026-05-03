@@ -16,7 +16,9 @@ public class fxL {
                     // --- WINDOWS ---
                     // Passed as a single string so Windows cmd parses the quotes correctly.
                     // 'start "Title"' opens a new terminal window explicitly for this Java process.
-                    Runtime.getRuntime().exec("cmd /c start \"SMS Launcher\" java -jar \"" + jarPath + "\"");
+                    Runtime.getRuntime().exec(new String[]{
+                        "cmd", "/c", "start", "\"SMS Launcher\"", "java", "-jar", jarPath
+                    });
                     
                 } else if (os.contains("mac")) {
                     // --- MACOS ---
